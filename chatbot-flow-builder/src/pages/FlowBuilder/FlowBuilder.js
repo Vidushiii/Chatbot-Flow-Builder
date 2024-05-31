@@ -1,18 +1,15 @@
 import React from "react";
-import { Container, FlexContainer, Header } from "../../styles/styles";
+import { Container, Header, StyledButtom } from "../../styles/styles";
 import CreateFlow from "../../components/createFlow";
 import RightPanel from "../../components/rightPanel";
 
 const FlowBuilder = () => {
     return (
-        <Container>
+        <Container height="100%">
             <Header>
-              Save Changes
+              <StyledButtom type="outline">Save Changes</StyledButtom>
             </Header>
-            <FlexContainer>
             <CreateFlow/>
-            <RightPanel/>
-            </FlexContainer>
             </Container>
     )
 }

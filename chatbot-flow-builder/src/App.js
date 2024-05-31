@@ -2,9 +2,7 @@ import FlowBuilder from './pages/FlowBuilder';
 
 function App() {
   return (
-    <div>
         <FlowBuilder />
-    </div>
   );
 }
 
