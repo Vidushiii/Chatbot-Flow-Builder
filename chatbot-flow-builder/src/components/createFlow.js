@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import ReactFlow, {
   ReactFlowProvider,
   Controls,
@@ -9,7 +9,14 @@ import ReactFlow, {
 } from "reactflow";
 
 import "reactflow/dist/style.css";
-import { Container, FlexContainer } from "../styles/styles";
+import {
+  Container,
+  FlexContainer,
+  Header,
+  Notifier,
+  StyledButtom,
+  Text,
+} from "../styles/styles";
 import CustomNode from "./customNode";
 import RightPanel from "./rightPanel";
 
@@ -42,6 +49,8 @@ const CreateFlow = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
+  const [hasUnconnectedNodes, setHasUnconnectedNodes] = useState(false);
+  const [hasSavedChanges, setHasSavedChanges] = useState(false);
 
   // Function to conect two nodes
   const onConnect = useCallback(
@@ -122,36 +131,82 @@ const CreateFlow = () => {
     }));
   };
 
+  // To save the flow and check for not connected nodes
+  const handleSave = () => {
+    if (nodes && nodes.length > 1) {
+      const connectedNodeIds = new Set(edges.map((edge) => edge.target));
+      const unconnectedNodes = nodes.filter(
+        (node) => !connectedNodeIds.has(node.id)
+      );
+      if (unconnectedNodes.length > 1) {
+        setHasUnconnectedNodes(true);
+      } else {
+        setHasSavedChanges(true);
+      }
+    }
+  };
+
+  // Reset states after 3 seconds of the action
+  const updateStates = () => {
+    setTimeout(() => {
+      setHasSavedChanges(false);
+      setHasUnconnectedNodes(false);
+    }, 3000);
+  };
+
+  useEffect(() => {
+    if (hasSavedChanges || hasUnconnectedNodes) {
+      updateStates();
+    }
+  }, [hasSavedChanges, hasUnconnectedNodes]);
+
   return (
-    <FlexContainer>
-      <Container width="100%">
-        <ReactFlowProvider>
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            nodeTypes={nodeTypes}
-            onInit={setReactFlowInstance}
-            onDrop={onDrop}
-            onDragOver={onDragOver}
-            onNodeClick={onNodeClick}
-            fitView
-          >
-            <Controls />
-            <Background />
-          </ReactFlow>
-        </ReactFlowProvider>
-      </Container>
-      {/* Panel to add or edit a node */}
-      <RightPanel
-        isNodeSelected={Boolean(selectedNode)}
-        selectedNode={selectedNode}
-        handleLabelChange={handleLabelChange}
-        onBackClick={handleBackClick}
-      />
-    </FlexContainer>
+    <Container height="100%">
+      <Header>
+        {/* Show message when save CTA is triggered */}
+        {(hasUnconnectedNodes || hasSavedChanges) && (
+          <Notifier bgColor={hasUnconnectedNodes ? "#cf3939" : "green"}>
+            <Text fontSize="14" fontWeight="600" color="white">
+              {hasUnconnectedNodes
+                ? "Cannot save flow"
+                : "Flow saved successfully"}
+            </Text>
+          </Notifier>
+        )}
+        <StyledButtom type="outline" onClick={handleSave}>
+          Save Changes
+        </StyledButtom>
+      </Header>
+      <FlexContainer>
+        <Container width="100%">
+          <ReactFlowProvider>
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={onConnect}
+              nodeTypes={nodeTypes}
+              onInit={setReactFlowInstance}
+              onDrop={onDrop}
+              onDragOver={onDragOver}
+              onNodeClick={onNodeClick}
+              fitView
+            >
+              <Controls />
+              <Background />
+            </ReactFlow>
+          </ReactFlowProvider>
+        </Container>
+        {/* Panel to add or edit a node */}
+        <RightPanel
+          isNodeSelected={Boolean(selectedNode)}
+          selectedNode={selectedNode}
+          handleLabelChange={handleLabelChange}
+          onBackClick={handleBackClick}
+        />
+      </FlexContainer>
+    </Container>
   );
 };
 

@@ -12,8 +12,11 @@ export const Container = styled.div`
 `;
 
 export const Header = styled.div`
-  height: 40px;
   background-color: #eeecec;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 74px;
 `;
 
 export const FlexContainer = styled.div`
@@ -29,7 +32,13 @@ export const RightPanelContainer = styled.div`
   width: 240px;
 `;
 
-export const StyledButtom = styled.button``;
+export const StyledButtom = styled.button`
+  border: 2px solid #a8a8dc;
+  border-radius: 5px;
+  color: #8585d9;
+  background: white;
+  padding: 5px 15px;
+`;
 
 export const NodeContainer = styled.div`
   width: ${({ width }) => `${width}px`};
@@ -76,4 +85,11 @@ export const EditNode = styled.div`
   display: flex;
   gap: 10px;
   flex-direction: column;
+`;
+
+export const Notifier = styled.div`
+  padding: 5px 15px;
+  border-radius: 5px;
+  background-color: ${({ bgColor }) => bgColor};
+  margin-right: 35%;
 `;

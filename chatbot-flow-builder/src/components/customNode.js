@@ -31,7 +31,7 @@ const CustomNode = ({ data }) => {
         />
       </NodeHeader>
       <Text fontSize={8} fontWeight={400} padding="5px">
-        {data.label}
+        {data.label || 'Add message'}
       </Text>
       {/* Node's Source handle */}
       <Handle type="source" position="left" />
