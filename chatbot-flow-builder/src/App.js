@@ -1,9 +1,7 @@
-import FlowBuilder from './pages/FlowBuilder';
+import FlowBuilder from "./pages/FlowBuilder";
 
 function App() {
-  return (
-        <FlowBuilder />
-  );
+  return <FlowBuilder />;
 }
 
 export default App;
