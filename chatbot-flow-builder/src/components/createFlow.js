@@ -6,6 +6,7 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   addEdge,
+  MarkerType,
 } from "reactflow";
 
 import "reactflow/dist/style.css";
@@ -33,13 +34,15 @@ const initialNodes = [
   },
   {
     id: "2",
-    position: { x: 0, y: 100 },
+    position: { x: 300, y: 0 },
     type: "customNode",
     data: { label: "Chatbot test message 2" },
   },
 ];
 
-const initialEdges = [{ id: "e1-2", source: "1", target: "2", animated: true }];
+const initialEdges = [{ id: "e1-2", source: "1", target: "2", markerEnd: {
+  type: MarkerType.Arrow,
+} }];
 
 const CreateFlow = () => {
   // Set custom node as nodetype
@@ -54,7 +57,10 @@ const CreateFlow = () => {
 
   // Function to conect two nodes
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
+    (params) =>
+      setEdges((eds) =>
+        addEdge({ ...params, markerEnd: { type: MarkerType.ArrowClosed } }, eds)
+      ),
     [setEdges]
   );
 

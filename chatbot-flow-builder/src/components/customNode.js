@@ -10,7 +10,7 @@ const CustomNode = ({ data }) => {
       showSelectedBorder={data.isSelected}
     >
      {/* Node's Target handle */}
-      <Handle type="target" position="right" />
+      <Handle type="target" position="left" />
       <NodeHeader>
         <Container direction="row" alignItems="center" gap="3">
           <img
@@ -31,10 +31,10 @@ const CustomNode = ({ data }) => {
         />
       </NodeHeader>
       <Text fontSize={8} fontWeight={400} padding="5px">
-        {data.label || 'Add message'}
+        {data.label || 'Add'}
       </Text>
       {/* Node's Source handle */}
-      <Handle type="source" position="left" />
+      <Handle type="source" position="right" />
     </NodeContainer>
   );
 };
