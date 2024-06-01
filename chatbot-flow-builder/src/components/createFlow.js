@@ -40,9 +40,16 @@ const initialNodes = [
   },
 ];
 
-const initialEdges = [{ id: "e1-2", source: "1", target: "2", markerEnd: {
-  type: MarkerType.Arrow,
-} }];
+const initialEdges = [
+  {
+    id: "e1-2",
+    source: "1",
+    target: "2",
+    markerEnd: {
+      type: MarkerType.Arrow,
+    },
+  },
+];
 
 const CreateFlow = () => {
   // Set custom node as nodetype
@@ -89,7 +96,7 @@ const CreateFlow = () => {
         id: getId(),
         type,
         position,
-        data: { label: `Empty Node` },
+        data: { label: `New Message Node ${id}` },
       };
 
       // Update nodes state
@@ -139,6 +146,7 @@ const CreateFlow = () => {
 
   // To save the flow and check for not connected nodes
   const handleSave = () => {
+    // Check only if there are more than 1 nodes
     if (nodes && nodes.length > 1) {
       const connectedNodeIds = new Set(edges.map((edge) => edge.target));
       const unconnectedNodes = nodes.filter(
@@ -169,6 +177,9 @@ const CreateFlow = () => {
   return (
     <Container height="100%">
       <Header>
+        <Text fontSize="14" fontWeight="600">
+          Chatbot Flow Builder
+        </Text>
         {/* Show message when save CTA is triggered */}
         {(hasUnconnectedNodes || hasSavedChanges) && (
           <Notifier bgColor={hasUnconnectedNodes ? "#cf3939" : "green"}>

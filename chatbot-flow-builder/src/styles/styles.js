@@ -15,7 +15,7 @@ export const Header = styled.div`
   background-color: #eeecec;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: 10px 74px;
 `;
 
@@ -38,12 +38,16 @@ export const StyledButtom = styled.button`
   color: #8585d9;
   background: white;
   padding: 5px 15px;
+  cursor: pointer;
+  &:hover {
+    border-color: #4caece;
+  }
 `;
 
 export const NodeContainer = styled.div`
   width: ${({ width }) => `${width}px`};
   ${({ showSelectedBorder }) =>
-    showSelectedBorder && "border: 1px solid #8d8dcc"};
+    showSelectedBorder && "border: 2px solid #8d8dcc"};
   border-radius: 5px;
   box-shadow: 2px 2px 10px #bcbcbc;
   overflow: hidden;
@@ -77,6 +81,7 @@ export const EmptyMessageNode = styled.div`
   gap: 6px;
   margin-left: 34px;
   margin-top: 20px;
+  cursor: pointer;
 `;
 
 export const EditNode = styled.div`
@@ -91,5 +96,4 @@ export const Notifier = styled.div`
   padding: 5px 15px;
   border-radius: 5px;
   background-color: ${({ bgColor }) => bgColor};
-  margin-right: 35%;
 `;
